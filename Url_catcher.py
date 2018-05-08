@@ -26,8 +26,7 @@ class URLCatcher():
         url = self.url_to_analise
         browser.get(url)
         soup = bs4.BeautifulSoup(browser.page_source, 'html.parser')
-        for link in soup.select(soup_command):
-            url_list.append(link.get('href'))
+        url_list = soup.select(soup_command)
         return url_list
 
     def CatchUrlsSel(self,no_of_links,step, soup_command):
@@ -39,8 +38,7 @@ class URLCatcher():
             browser.get(url)
             soup = bs4.BeautifulSoup(browser.page_source, 'html.parser')
             sleep(randint(4,6))
-            for link in soup.select(soup_command):
-                url_list.append(link.get('href'))
+            url_list = [link.get('href') for link in self.soup.select(soup_command)]
         return url_list
 
     def CatchUrlsReq(self,no_of_links,step,soup_command):
@@ -53,6 +51,5 @@ class URLCatcher():
             res = requests.get(url, headers = headers)
             res.raise_for_status()
             self.soup = bs4.BeautifulSoup(res.text, 'html.parser')
-            for link in self.soup.select(soup_command): #petla lapiaca url #a[class="clearfix pad"]
-                url_list.append(link.get('href'))
+            url_list = [link.get('href') for link in self.soup.select(soup_command)]
         return url_list
